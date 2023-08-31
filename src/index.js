@@ -1,13 +1,23 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import React from "react";
+import ReactDOM from "react-dom/client";
+import "./index.css";
+import App from "./App";
+import reportWebVitals from "./reportWebVitals";
+import { Web3ReactProvider, initializeConnector } from "@web3-react/core";
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
+import { MetaMask } from "@web3-react/metamask";
+
+const [metaMask, metaMaskHooks] = initializeConnector(
+  (actions) => new MetaMask({ actions })
+);
+
+const connectors = [[metaMask, metaMaskHooks]];
+const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
-    <App />
+    <Web3ReactProvider connectors={connectors}>
+      <App />
+    </Web3ReactProvider>
   </React.StrictMode>
 );
 
